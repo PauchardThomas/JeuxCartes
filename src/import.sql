@@ -1,0 +1,6 @@
+
+INSERT INTO `role` (`ROL_RANG`) VALUES ('ROLE_USER');
+INSERT INTO `role` (`ROL_RANG`) VALUES ('ROLE_ADMIN');
+INSERT INTO `statut`(`STA_INTITULE`) VALUES ("En attente");
+INSERT INTO `statut`(`STA_INTITULE`) VALUES ("En cours");
+INSERT INTO `statut`(`STA_INTITULE`) VALUES ("Terminée");

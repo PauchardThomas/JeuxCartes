@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/WEB-INF/template/general.xhtml">
+	
+	<ui:define name="titre">S'inscrire</ui:define>
+	
+	<ui:define name="contenu">
+	    <h:form>
+	    	<div class="input-field">
+				<h:inputText id="user_username" value="#{accountController.utilisateur.username}" class="validate" required="true" requiredMessage="Veuillez saisir un nom d'utilisateur">
+					<f:ajax event="blur" render="message_required_user_username" />
+				</h:inputText>
+				<h:outputLabel for="user_username">Nom d'utilisateur</h:outputLabel>
+				<h:message id="message_required_user_username" for="user_username" errorClass="red-text text-darken-4" />
+			</div>
+			
+	    	<div class="input-field">
+				<h:inputSecret id="user_password" value="#{accountController.utilisateur.password}" binding="#{component_user_password}" class="validate" required="true" requiredMessage="Veuillez saisir un mot de passe">
+					<f:ajax event="keyup" execute="@this" render="message_required_user_password message_required_user_password_verification" />
+				</h:inputSecret>
+				<h:outputLabel for="user_password">Mot de passe</h:outputLabel>
+				<h:message id="message_required_user_password" for="user_password" errorClass="red-text text-darken-4" />
+			</div>
+			
+	    	<div class="input-field">
+				<h:inputSecret id="user_password_verification" value="#{accountController.passwordCheck}" class="validate" required="true" requiredMessage="Veuillez saisir un mot de passe">
+					<f:validator validatorId="fr.ascadis.validator.UtilisateurPasswordCheckValidator" />
+					<f:attribute name="component_user_password" value="#{component_user_password}" />
+					<f:ajax event="keyup" execute="@this" render="message_required_user_password_verification" />
+				</h:inputSecret>
+				<h:outputLabel for="user_password_verification">Mot de passe</h:outputLabel>
+				<h:message id="message_required_user_password_verification" for="user_password_verification" errorClass="red-text text-darken-4" />
+			</div>
+			
+			<h:commandLink class="btn waves-effect waves-light" action="#{accountController.subscribe}">
+				OK <i class="material-icons right">send</i>
+			</h:commandLink>
+		</h:form>
+	</ui:define>
+</ui:composition>

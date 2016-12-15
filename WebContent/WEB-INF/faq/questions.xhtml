@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template/general.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="titre">F.A.Q</ui:define>
+
+	<ui:define name="contenu">
+	<sec:authorize ifAnyGranted="ROLE_ADMIN">
+		<a href="/tp-jsf/editQuestion" class="waves-effect waves-light btn">Nouvelle
+			question</a>
+			</sec:authorize>
+		<div class="row">
+			<h:form>
+				<c:forEach items="#{questionController.questions}" var="question">
+						<div>
+							<p>Question : ${question.intitule}</p>
+							<p>Réponse : ${question.reponse}</p>
+							<sec:authorize ifAnyGranted="ROLE_ADMIN">
+							<div>
+								<h:commandLink action="#{questionController.remove(question)}">
+								RETIRER
+								<f:ajax execute="@form" render="@form" ></f:ajax>  
+								</h:commandLink>
+								<a href="editQuestion/#{question.id}">EDITER</a>
+							</div>
+							</sec:authorize>
+						</div>
+						<hr />
+				</c:forEach>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

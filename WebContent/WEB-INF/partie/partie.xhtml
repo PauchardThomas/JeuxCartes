@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template/general.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:define name="titre">#{partieController.editedItem.intitule}</ui:define>
+
+	<ui:define name="contenu">
+		<h2>Partie : #{partieController.editedItem.intitule}</h2>
+		<style>
+table {
+	border: 1px solid green;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table td {
+	border: 1px solid green;
+}
+
+table td {
+	white-space: nowrap
+}
+
+table td {
+	width: 99%
+}
+</style>
+		<div>
+			<table>
+				<tr>
+					<th>Joueurs</th>
+				</tr>
+				<c:forEach items="#{partieController.partieJoueurs()}" var="p">
+					<tr>
+						<td>#{p.username}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<input id="pos" type="hidden" value="#{partieController.WhoAmI()}" />
+
+			<div id="statut">
+				<c:if test="#{partieController.statutPartie() eq 1}">
+					En attente d'un autre joueur...
+			</c:if>
+				<c:if test="#{partieController.statutPartie() eq 2}">
+					Partie en cours...
+			</c:if>
+			</div>
+		</div>
+		<div>
+			<p id="mamain">Ma main : #{partieController.nbCarteJoueur} cartes</p>
+			<p>Ma carte jouée</p>
+			<div id="maCarteJoue"></div>
+		</div>
+		<hr/>
+		<div>
+			<p id="advmain">La main de mon adversaire :
+				#{partieController.nbCarteJoueur} cartes</p>
+			<p>Sa carte jouée</p>
+			<div id="saCarteJoue"></div>
+		</div>
+		<h:form>
+			<h:commandLink id="play" name="play" style="position: relative; top: -2.5em;"
+				class="right btn-floating btn-small"
+				action="#{partieController.jouerCarte()}">
+			Jouer ma carte.
+			<f:ajax execute="@form" render="@form"></f:ajax>
+			</h:commandLink>
+
+		</h:form>
+		<p:socket onMessage="handleMessage" channel="/partie" />
+		<script type="text/javascript">
+			function handleMessage(facesmessage) {
+				//location.reload();
+				var json = JSON.parse(facesmessage);
+				console.log(json);
+				console.log(json.poids);
+				if (json.poids == undefined) {
+					document.getElementById('mamain').innerHTML = 'Ma main : '
+							+ facesmessage + ' cartes';
+					document.getElementById('advmain').innerHTML = 'La main de mon adversaire : '
+							+ facesmessage + ' cartes';
+					console.log("json.poids est undefined")
+				} else {
+					var jouepar = null;
+					var display = "";
+					if (document.getElementById('pos').value == json.jouePar) {
+						jouepar = "maCarteJoue";
+						display = "none";
+					} else {
+						jouepar = "saCarteJoue";
+						display = "";
+					}
+
+					document.getElementById(jouepar).innerHTML = '<div class="card" style="width: 10%;"><div class="card-image waves-block waves-light"><div class="activator valign-wrapper" style="height: 9em; background-color:'+json.couleur+'"><h5 class="valign white-text center-align" style="width: 100%;">'
+							+ json.nom + '</h5></div></div></div>';
+					document.getElementById('j_idt18:play').style.display = display;
+				}
+
+			}
+		</script>
+	</ui:define>
+</ui:composition>

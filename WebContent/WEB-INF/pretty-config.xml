@@ -1,0 +1,72 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+									http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/WEB-INF/account/login.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="subscribe">
+		<pattern value="/subscribe" />
+		<view-id value="/WEB-INF/account/subscribe.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="home">
+		<pattern value="/home" />
+		<view-id value="/WEB-INF/home.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="cartes">
+		<pattern value="/cartes" />
+		<view-id value="/WEB-INF/carte/liste.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="main">
+		<pattern value="/main" />
+		<view-id value="/WEB-INF/carte/liste.xhtml?main=true" />
+	</url-mapping>
+
+
+	<url-mapping id="createCarte">
+		<pattern value="/editCarte" />
+		<view-id value="/WEB-INF/carte/edit.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="editCarte">
+		<pattern value="/editCarte/#{carte_id}" />
+		<view-id value="/WEB-INF/carte/edit.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="questions">
+		<pattern value="/questions" />
+		<view-id value="/WEB-INF/faq/questions.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="createQuestion">
+		<pattern value="/editQuestion" />
+		<view-id value="/WEB-INF/faq/editQuestion.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="editQuestion">
+		<pattern value="/editQuestion/#{question_id}" />
+		<view-id value="/WEB-INF/faq/editQuestion.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="createPartie">
+		<pattern value="/createPartie" />
+		<view-id value="/WEB-INF/partie/createPartie.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="partie">
+		<pattern value="/partie/#{partie_id}" />
+		<view-id value="/WEB-INF/partie/partie.xhtml" />
+	</url-mapping>
+
+</pretty-config>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/WEB-INF/template/general.xhtml">
+	
+	<ui:define name="titre">#{questionController.title}</ui:define>
+	
+	<ui:define name="contenu">
+		<h:form>
+			<div class="input-field">
+				<h:inputText id="question_intitule" name="question_intitule" class="validate" value="#{questionController.editedItem.intitule}" />
+				<h:outputLabel for="carte_nom">Question</h:outputLabel>
+			</div>
+			
+			<div class="input-field">
+				<h:inputTextarea  id="question_reponse" name="question_reponse" class="validate" value="#{questionController.editedItem.reponse}" />
+				<h:outputLabel for="question_reponse">Reponse</h:outputLabel>
+			</div>
+			
+			<h:commandLink class="btn waves-effect waves-light" action="#{questionController.validate()}">
+				Valider <i class="material-icons right">send</i>
+			</h:commandLink>
+		</h:form>
+	</ui:define>
+</ui:composition>

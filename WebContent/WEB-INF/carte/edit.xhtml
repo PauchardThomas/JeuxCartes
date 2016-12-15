@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/WEB-INF/template/general.xhtml"
+				xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="titre">#{cartesController.title}</ui:define>
+	
+	<ui:define name="contenu">
+		<h:form>
+			<div class="input-field">
+				<h:inputText id="carte_nom" name="carte_nom" class="validate" value="#{cartesController.editedItem.nom}" />
+				<h:outputLabel for="carte_nom">Nom</h:outputLabel>
+			</div>
+			
+			<div class="input-field">
+				<h:inputText id="carte_couleur" name="carte_couleur" class="validate" value="#{cartesController.editedItem.couleur}" />
+				<h:outputLabel for="carte_couleur">Couleur</h:outputLabel>
+			</div>
+			
+			<div class="input-field">
+				<h:inputText id="carte_poids" name="carte_poids" class="validate" value="#{cartesController.editedItem.poids}" />
+				<h:outputLabel for="carte_poids">Poids</h:outputLabel>
+			</div>
+			
+			<h:commandLink class="btn waves-effect waves-light" action="#{cartesController.validate()}" actionListener="#{cartesController.create}">
+				Valider <i class="material-icons right">send</i>
+			</h:commandLink>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="/WEB-INF/template/general.xhtml">
+	
+	<ui:define name="titre">Bienvenue</ui:define>
+	
+	<ui:define name="contenu">
+	    <h:form>
+	    	<div class="input-field">
+				<i class="material-icons prefix">account_circle</i>
+				<h:inputText id="user_username" value="#{accountController.utilisateur.username}" class="validate" required="true" requiredMessage="Veuillez saisir votre nom d'utilisateur">
+					<f:ajax event="blur" render="message_required_user_username" />
+				</h:inputText>
+				<h:outputLabel for="user_username">Nom d'utilisateur</h:outputLabel>
+				<h:message id="message_required_user_username" for="user_username" errorClass="red-text text-darken-4" />
+			</div>
+			
+	    	<div class="input-field">
+				<i class="material-icons prefix">vpn_key</i>
+				<h:inputSecret id="user_password" value="#{accountController.utilisateur.password}" class="validate" required="true" requiredMessage="Veuillez saisir votre mot de passe">
+					<f:ajax event="blur" render="message_required_user_password" />
+				</h:inputSecret>
+				<h:outputLabel for="user_password">Mot de passe</h:outputLabel>
+				<h:message id="message_required_user_password" for="user_password" errorClass="red-text text-darken-4" />
+			</div>
+			
+			<h:commandLink class="btn waves-effect waves-light" action="#{accountController.login}">
+				OK <i class="material-icons right">send</i>
+			</h:commandLink>
+			
+			<a class="btn waves-effect waves-light" href="/tp-jsf/subscribe">
+				S'inscrire
+			</a>
+		</h:form>
+	</ui:define>
+</ui:composition>
