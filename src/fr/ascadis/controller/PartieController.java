@@ -16,11 +16,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
+import fr.ascadis.bean.PartieBean;
+import fr.ascadis.bean.UtilisateurBean;
 import fr.ascadis.dao.CarteDAO;
-import fr.ascadis.dao.PartieDAO;
 import fr.ascadis.dao.PartieUtilisateurMainDAO;
 import fr.ascadis.dao.StatutDAO;
-import fr.ascadis.dao.UtilisateurDAO;
 import fr.ascadis.model.Carte;
 import fr.ascadis.model.Partie;
 import fr.ascadis.model.PartieUtilisateurMain;
@@ -63,12 +63,18 @@ public class PartieController implements Serializable {
      * Canal d'écoute
      */
     private final static String CHANNEL = "/partie";
-
+    
     /**
-     * Injection de dépendence de la gestion de données d'une partie
+     *  Injection de dépendences du bean de partie
      */
     @Autowired
-    private PartieDAO partieDAO;
+    private PartieBean partieBean;
+    
+    /**
+     * Injection de dépensces du bean utilisateur
+     */
+    @Autowired
+    private UtilisateurBean utilisateurBean;
 
     /**
      * Injection de dépendence de la gestion de données d'un statut
@@ -76,11 +82,6 @@ public class PartieController implements Serializable {
     @Autowired
     private StatutDAO statutDAO;
 
-    /**
-     * Injection de dépendence de la gestion de données d'un utilisateur
-     */
-    @Autowired
-    private UtilisateurDAO utilisateurDAO;
     
     /**
      * Injection de dépendence de la gestion de carte
@@ -129,20 +130,20 @@ public class PartieController implements Serializable {
         } else {
 
             int idPartie = Integer.parseInt(myId);
-            this.editedItem = partieDAO.find(idPartie);
+            this.editedItem = partieBean.find(idPartie);
             Utilisateur user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Utilisateur> users = partieJoueurs();
 
             if (shouldAddPlayer()) {
                 
-                if (!utilisateurDAO.isInUsersList(users, user)) {
+                if (!utilisateurBean.isInUsersList(users, user)) {
                     users.add(user);
                     if(users.size() == 2) {
                         //Lancement de la partie
                         this.editedItem.setStatut(this.statutDAO.find(2));
                     }
                     this.editedItem.setUsers(users);
-                    this.partieDAO.save(this.editedItem);
+                    this.partieBean.save(this.editedItem);
                     
                     if(users.size() >= 2) {
                         this.joueurs = this.partieJoueurs();
@@ -166,7 +167,7 @@ public class PartieController implements Serializable {
      * @return ArrayList<Utilisateur> liste des utilisateurs d'une partie
      */
     public ArrayList<Utilisateur> partieJoueurs() {
-        ArrayList<Utilisateur> users = this.partieDAO.getJoueurs(this.editedItem.getId());
+        ArrayList<Utilisateur> users = this.partieBean.partieJoueurs(this.editedItem.getId());
         return users;
     }
     
@@ -192,7 +193,7 @@ public class PartieController implements Serializable {
      */
     public String validate() {
         this.editedItem.setStatut(this.statutDAO.find(1));
-        this.partieDAO.save(this.editedItem);
+        this.partieBean.save(this.editedItem);
         return "/WEB-INF/home?faces-redirect=true";
     }
 
@@ -202,7 +203,7 @@ public class PartieController implements Serializable {
      */
     public Boolean shouldAddPlayer() {
 
-        if (partieDAO.JoueursDansPartie(this.editedItem.getId()) > 2) {
+        if (partieBean.joueursDansPartie(this.editedItem.getId()) > 2) {
             return false;
         } else {
             return true;

@@ -10,8 +10,9 @@ public interface IQuestion {
 	
 	void ajouterQuestion(Question question);
 	
-	void removeQuestion(int id);
 	
 	Question getQuestion(int id);
+
+    void removeQuestion(Question question);
 
 }

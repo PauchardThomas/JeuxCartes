@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
+import fr.ascadis.bean.PartieBean;
 import fr.ascadis.dao.PartieDAO;
 import fr.ascadis.model.Partie;
 import fr.ascadis.model.Utilisateur;
@@ -24,13 +25,12 @@ public class HomeController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    
     /**
-     *  Injection de dépendences de la gestion des données d'une partie
+     *  Injection de dépendences du bean de partie
      */
     @Autowired
-    private PartieDAO partieDAO;
-    
+    private PartieBean partieBean;
     /**
      * Récupère le nom de l'utilisateur
      * @return
@@ -46,7 +46,7 @@ public class HomeController implements Serializable {
      */
     public List<Partie> partieARejoindre() {
         
-        return partieDAO.getPartieARejoindre();
+        return partieBean.partieARejoindre();
         
     }
     

@@ -38,7 +38,7 @@ public class CarteDAO extends DAO<Carte, String> {
     @SuppressWarnings("unchecked")
     @Override
     public List<Carte> findAll() {
-        return  (List<Carte>)em.createQuery("select c from Carte c ").getResultList();
+        return  (List<Carte>)em.createQuery("select c from Carte c ORDER BY c.poids ASC ").getResultList();
     }
 
     /**

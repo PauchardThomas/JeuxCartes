@@ -9,26 +9,39 @@
 	<ui:define name="titre">Bienvenue</ui:define>
 
 	<ui:define name="contenu">
-		<h1>Bienvenue #{homeController.getNom()} !</h1>
+		<h2>Bienvenue #{homeController.getNom()} !</h2>
 
 		<h:form>
 			<h:commandLink class="btn waves-effect waves-light"
 				action="#{accountController.logout}">
 				Se déconnecter <i class="material-icons right">lock</i>
 			</h:commandLink>
-			<hr/>
+			<hr />
 			<p>
-			<h1>Parties</h1>
+			<h3>Parties</h3>
 			<a href="/tp-jsf/createPartie" class="waves-effect waves-light btn">Nouvelle
-				partie</a></p>
-				<br/>
-			<c:forEach items="#{homeController.partieARejoindre()}" var="partie">
-			<div>
-				${partie.intitule}
-			<a href="/tp-jsf/partie/#{partie.id}" class="waves-effect waves-light btn">Rejoindre</a>
-				<hr/>
-				</div>
-			</c:forEach>
+				partie</a>
+			</p>
+			<br />
+			<Table class="centered highlight responsive-table">
+				<thead>
+					<tr>
+						<th data-field="partie">Partie</th>
+						<th data-field="name">A rejoindre</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="#{homeController.partieARejoindre()}"
+						var="partie">
+						<tr>
+							<td>${partie.intitule}</td>
+							<td><a href="/tp-jsf/partie/#{partie.id}"
+								class="waves-effect waves-light btn">Rejoindre</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</Table>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

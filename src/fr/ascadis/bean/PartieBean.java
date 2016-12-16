@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import fr.ascadis.dao.PartieDAO;
-import fr.ascadis.dao.UtilisateurDAO;
 import fr.ascadis.model.Partie;
 import fr.ascadis.model.Utilisateur;
 
@@ -19,19 +22,19 @@ import fr.ascadis.model.Utilisateur;
 public class PartieBean implements Serializable {
 
 	/**
-	 * NumÃ©ro de serialisation du bean 
+	 * Numéro de serialisation du bean 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Injection de dï¿½pendences de la gestion des donnï¿½es d'une partie
+	 * Injection de dépendances de la gestion des données d'une partie
 	 */
 	@Autowired
 	private PartieDAO partieDAO;
 	
     /**
-     * RÃ©cupÃ¨re la liste des parties Ã  rejoindre
-     * @return List<Partie liste de partie ï¿½ rejoindre
+     * Récupère la liste des parties à  rejoindre
+     * @return List<Partie liste de partie à rejoindre
      */
     public List<Partie> partieARejoindre() {
         
@@ -40,17 +43,17 @@ public class PartieBean implements Serializable {
     }
     
     /**
-     * RÃ©cupÃ¨re une partie
-     * @param idPartie id de la partie Ã  rÃ©cupÃ©rer
-     * @return Partie partie rÃ©upÃ©rÃ©e
+     * Récupère une partie
+     * @param idPartie id de la partie à récuperer
+     * @return Partie partie récupérer
      */
     public Partie find(int idPartie) {
-    	this.partieDAO.find(idPartie);
+    	return this.partieDAO.find(idPartie);
     }
     
     /**
      * Sauvegarde une partie
-     * @param p partie Ã  sauvegarder
+     * @param p partie à  sauvegarder
      */
     public void save(Partie p){
     	this.partieDAO.save(p);
@@ -58,7 +61,7 @@ public class PartieBean implements Serializable {
     }
     
     /**
-     * RÃ©cupÃ¨re la liste des joueurs d'une partie
+     * Récupère la liste des joueurs d'une partie
      * @return ArrayList<Utilisateur> liste des utilisateurs d'une partie
      */
     public ArrayList<Utilisateur> partieJoueurs(int idPartie) {
@@ -67,7 +70,7 @@ public class PartieBean implements Serializable {
     }
     
     /**
-     * RÃ©cupÃ¨re le nombre de joueurs dans une partie
+     * Récupère le nombre de joueurs dans une partie
      * @param idPartie id de la partie
      * @return int le nombre de joueurs dans la partie
      */

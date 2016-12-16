@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import fr.ascadis.Constantes;
 import fr.ascadis.bean.SqlApplicationDataBean;
+import fr.ascadis.bean.UtilisateurBean;
 import fr.ascadis.dao.UtilisateurDAO;
 import fr.ascadis.model.Carte;
 import fr.ascadis.model.Utilisateur;
@@ -37,12 +38,12 @@ public class CartesController implements Serializable {
      */
     @Autowired
     private SqlApplicationDataBean sqlApplicationDataBean;
-
+    
     /**
-     * Injection de dépendences de la gestion des données d'un utilisateur
+     * Injection de dépendences du bean utilisateur
      */
     @Autowired
-    private UtilisateurDAO utilisateurDAO;
+    private UtilisateurBean utilisateurBean;
 
     /**
      * Canal d'écoute
@@ -85,7 +86,7 @@ public class CartesController implements Serializable {
     public void init() {
         String myId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("carte_id");
        this.user =  (Utilisateur)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userMain = this.utilisateurDAO.getUserCartes(this.user);
+        userMain = this.utilisateurBean.getUserCartes(this.user);
         if (this.editedItem == null) {
             if (myId != null) {
                 this.editedItem = this.sqlApplicationDataBean.getCarte(myId);
@@ -110,8 +111,8 @@ public class CartesController implements Serializable {
 
         if (isMain) {
             myCartes = new ArrayList<>();
-            if (this.utilisateurDAO != null) {
-                for (Carte carte : this.utilisateurDAO.getUserCartes(this.user)) {
+            if (this.utilisateurBean != null) {
+                for (Carte carte : this.utilisateurBean.getUserCartes(this.user)) {
                     myCartes.add(this.sqlApplicationDataBean.getCarte(carte.getId()));
                 }
             }
@@ -187,7 +188,7 @@ public class CartesController implements Serializable {
             userMain.remove(carterm);
         }
         this.user.setCartes(userMain);
-        this.utilisateurDAO.save(this.user);
+        this.utilisateurBean.saveUser(this.user);
         this.sqlApplicationDataBean.removeCarte(carte.getId());
     }
 
@@ -198,7 +199,7 @@ public class CartesController implements Serializable {
     public void toggleCarte(String id) {
 
         if (id != null) {
-            userMain = this.utilisateurDAO.getUserCartes(this.user);
+            userMain = this.utilisateurBean.getUserCartes(this.user);
             Carte myCarte = this.sqlApplicationDataBean.getCarte(id);
             if (this.isInMain(myCarte)) {
                 Carte carterm = myCarte; 
@@ -215,7 +216,7 @@ public class CartesController implements Serializable {
 
             }
             this.user.setCartes(userMain);
-            this.utilisateurDAO.save(this.user);
+            this.utilisateurBean.saveUser(this.user);
         }
     }
     

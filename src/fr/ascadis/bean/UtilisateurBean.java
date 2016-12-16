@@ -1,17 +1,13 @@
 package fr.ascadis.bean;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.ascadis.controller.Autowired;
 import fr.ascadis.dao.UtilisateurDAO;
 import fr.ascadis.model.Carte;
 import fr.ascadis.model.Utilisateur;
@@ -32,7 +28,7 @@ public class UtilisateurBean implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Injection de dï¿½pendences de la gestion des donnï¿½es d'un utilisateur
+	 * Injection de dépendences de la gestion des données d'un utilisateur
 	 */
 	@Autowired
 	private UtilisateurDAO utilisateurDAO;
@@ -46,17 +42,17 @@ public class UtilisateurBean implements Serializable
 	}
 	
 	/**
-	 * RÃ©cupÃ¨re un utilisateur par ses logins
+	 * Récupère un utilisateur par ses logins
 	 * @param username username de l'utilisateur
 	 * @param password password de l'utilisateur
-	 * @return Utilisateur trouvÃ©.
+	 * @return Utilisateur trouvé.
 	 */
-	public Utilisateur FindByLogin(String username,String password) {
+	public Utilisateur findByLogin(String username,String password) {
 		return this.utilisateurDAO.findByLogin(username,password);
 	}
 	
 	/**
-	 * RÃ©cupÃ¨re une liste de cartes d'un utilisateur
+	 * Récupère une liste de cartes d'un utilisateur
 	 * @param u Utilisateur 
 	 * @return List<Carte> liste des cartes d'un utilisateur
 	 */
@@ -79,8 +75,4 @@ public class UtilisateurBean implements Serializable
         return false;
     }
 	
-	
-	
-	
-
 }

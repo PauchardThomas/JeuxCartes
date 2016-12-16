@@ -6,7 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import fr.ascadis.IQuestion;
+import fr.ascadis.dao.QuestionDAO;
 import fr.ascadis.model.Carte;
 import fr.ascadis.model.Question;
 
@@ -15,53 +20,53 @@ import fr.ascadis.model.Question;
 public class Questionbean implements Serializable, IQuestion {
 
 	/**
-	 * Num√©ro de serialisation du Bean
+	 * NumÈro de serialisation du Bean
 	 */
 	private static final long serialVersionUID = 1L;
-	private Map<Integer, Question> questions = new HashMap<>();
+	
+	/**
+	 * Injection de dÈpendence de la gestion des donnÈes de question
+	 */
+	@Autowired
+	private QuestionDAO questionDAO;
 
 
 	/**
-	 * R√©cup√®re la liste des questions
-	 * @return List<Question> Liste des question r√©cup√©r√©
+	 * RÈcupËre la liste des questions
+	 * @return List<Question> Liste des questions rÈcupËres
 	 */
 	@Override
 	public List<Question> getQuestions() {
-		return new ArrayList<>(this.questions.values());
+	    return this.questionDAO.findAll();
 	}
 
 	/**
-	 * AJoute une question
-	 * @param question question √† ajouter
+	 * Ajoute une question
+	 * @param question question ‡† ajouter
 	 */
 	@Override
 	public void ajouterQuestion(Question question) {
-		if (getQuestion(question.getId()) != null)
-		{
-			throw new IllegalArgumentException("La question existe d√©j√†");
-		}
-		
-		this.questions.put(question.getId(), question);
+	    this.questionDAO.save(question);
 
 	}
 
 	/**
 	 * Supprime une question
-	 * @param id id de la question √† supprimer
+	 * @param id id de la question ‡† supprimer
 	 */
 	@Override
-	public void removeQuestion(int id) {
-		this.questions.remove(id);
+	public void removeQuestion(Question question) {
+		this.questionDAO.delete(question);
 
 	}
 
 	/**
-	 * R√©cup√®re une question
-	 * @param id id de la questino √† r√©cup√©rer.
+	 * RÈcupËre une question
+	 * @param id id de la questino ‡ rÈcupËre.
 	 */
 	@Override
 	public Question getQuestion(int id) {
-		return this.questions.get(id);
+		return this.questionDAO.find(id);
 	}
 
 }

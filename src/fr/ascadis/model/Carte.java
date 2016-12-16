@@ -47,6 +47,7 @@ public class Carte implements Serializable {
     /**
      * Carte joué par.
      */
+    @Transient
     private int jouePar;
 
 

@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.ascadis.dao.QuestionDAO;
+import fr.ascadis.bean.Questionbean;
 import fr.ascadis.model.Question;
 
 /**
@@ -28,12 +25,12 @@ public class QuestionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
     /**
-     * Injection de dépendence de la gestion de donnée des question
+     * Injection de dépendences du bean de question
      */
     @Autowired
-    private QuestionDAO questionDAO;
-    
+    private Questionbean questionbean;
     /**
      * Titre de la page
      */
@@ -61,7 +58,7 @@ public class QuestionController implements Serializable {
                 this.editedItem = new Question("La question....","La réponse....");
                 this.setTitle("Nouvelle question");
             }else{
-                this.editedItem = (Question)this.questionDAO.find(Integer.parseInt(myId));
+                this.editedItem = (Question)this.questionbean.getQuestion(Integer.parseInt(myId));
                 this.setTitle("Edition question");
             }
             
@@ -73,7 +70,8 @@ public class QuestionController implements Serializable {
      * @return liste des questions
      */
     public List<Question> getQuestions() {
-        return this.questionDAO.findAll();
+        List<Question> qs = this.questionbean.getQuestions();
+        return  qs;
     }
     
     /**
@@ -81,7 +79,7 @@ public class QuestionController implements Serializable {
      * @param question
      */
     public void remove(Question question) {
-         this.questionDAO.delete(question);
+         this.questionbean.removeQuestion(question);
     }
     
     /**
@@ -90,7 +88,7 @@ public class QuestionController implements Serializable {
      */
     public String validate() {
         
-        this.questionDAO.save(this.editedItem);
+        this.questionbean.ajouterQuestion(this.editedItem);
         return "questions?faces-redirect=true";
         
     }
